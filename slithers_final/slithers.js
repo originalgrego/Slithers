@@ -46,6 +46,8 @@ var bodyImage = null;
 var boardImage = null;
 // The image for the apple piece.
 var appleImage = null;
+// The image for the floor piece.
+var floorImage = null;
 // Stores the key that was pressed.
 var playerKeyPress = 0;
 // The number of frames since the last time we forced the players piece to drop.
@@ -310,15 +312,25 @@ function moveSnakeBody(xDelta, yDelta) {
       snake[x].y = snake[x - 1].y;
     }
     // Check to see if we're growing.
-    if (snake[0].x + xDelta == applePosition.x && snake[0].y + yDelta == applePosition.y) {
-      newAppleLocation();
-
+    if (checkAppleEaten(xDelta, yDelta)) {
       snake.push({
         x: lastSegmentX,
         y: lastSegmentY
       });
     }
   }
+}
+
+/**
+ * Checks the position of our snake's head and the apple, returns TRUE if they're at the same position.
+ */
+function checkAppleEaten(xDelta, yDelta) {
+  // Check to see if we're growing.
+  if (snake[0].x + xDelta == applePosition.x && snake[0].y + yDelta == applePosition.y) {
+    newAppleLocation();
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -396,7 +408,7 @@ function checkGameOver(xDelta, yDelta) {
 }
 
 /**
- * An unused feature to bounce a snake off of a wall instead of gameOver.
+ * An unused feature to bounce a snake off of a wall instead of causing a gameOver.
  */
 function bounceOffWalls(xDelta, yDelta) {
   if (snake[0].x + xDelta == leftLimit) {

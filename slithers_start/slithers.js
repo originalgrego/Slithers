@@ -46,6 +46,8 @@ var bodyImage = null;
 var boardImage = null;
 // The image for the apple piece.
 var appleImage = null;
+// The image for the floor piece.
+var floorImage = null;
 // Stores the key that was pressed.
 var playerKeyPress = 0;
 // The number of frames since the last time we forced the players piece to drop.
@@ -193,75 +195,13 @@ function gameLoop() {
 function handleInput() {
   var xDelta = 0;
   var yDelta = 0;
-
-  if (playerKeyPress == KEY_PRESS_LEFT) {
-    lastSnakeDirection = "left";
-    xDelta --;
-  }
-  if (playerKeyPress == KEY_PRESS_RIGHT) {
-    lastSnakeDirection = "right";
-    xDelta ++;
-  }
-  if (playerKeyPress == KEY_PRESS_DOWN) {
-    lastSnakeDirection = "down";
-    yDelta ++;
-  }
-  if (playerKeyPress == KEY_PRESS_UP) {
-    lastSnakeDirection = "up";
-    yDelta --;
-  }
-
-  playerKeyPress = 0;
-
-
-  if (xDelta != 0 || yDelta != 0) {
-    var lastSegmentX = snake[snake.length - 1].x;
-    var lastSegmentY = snake[snake.length - 1].y;
-
-    moveSnakeBody();
-
-    if (checkAppleEaten(xDelta, yDelta)) {
-      snake.push({
-        x: lastSegmentX,
-        y: lastSegmentY
-      });
-    }
-  }
-
-  snake[0].x += xDelta;
-  snake[0].y += yDelta;
-
 }
 
 /**
  * Draw our game board, two paddles, ball, and scores.
  */
 function drawGame() {
-  drawArray(board, 0, 0);
 
-  for (var x = 0; x < snake.length; x ++) {
-    var image;
-    if (x == 0) {
-      if (lastSnakeDirection == "left") {
-        image = snakeImageLeft;
-      }
-      if (lastSnakeDirection == "right") {
-        image = snakeImageRight;
-      }
-      if (lastSnakeDirection == "up") {
-        image = snakeImageUp;
-      }
-      if (lastSnakeDirection == "down") {
-        image = snakeImageDown;
-      }
-    }
-    else {
-      image = bodyImage;
-    }
-    canvas.drawImage(image, snake[x].x * 8, snake[x].y * 8);
-  }
-
-  canvas.drawImage(appleImage, applePosition.x * 8, applePosition.y * 8);
 }
 
 /*
@@ -287,13 +227,15 @@ function drawArray(drawArray, xOffset, yOffset) {
  * Steps through our snake's body, and moves each segment forward by one space.
  */
 function moveSnakeBody() {
-    for (var x = snake.length - 1; x >= 1; x --) {
-      snake[x].x = snake[x - 1].x;
-      snake[x].y = snake[x - 1].y;
-    }
-
+  for (var x = snake.length - 1; x >= 1; x --) {
+    snake[x].x = snake[x - 1].x;
+    snake[x].y = snake[x - 1].y;
+  }
 }
 
+/**
+ * Checks the position of our snake's head and the apple, returns TRUE if they're at the same position.
+ */
 function checkAppleEaten(xDelta, yDelta) {
   // Check to see if we're growing.
   if (snake[0].x + xDelta == applePosition.x && snake[0].y + yDelta == applePosition.y) {
