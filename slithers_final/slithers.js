@@ -307,9 +307,9 @@ function moveSnakeBody(xDelta, yDelta) {
     var lastSegmentX = snake[snake.length - 1].x;
     var lastSegmentY = snake[snake.length - 1].y;
 
-    for (var x = snake.length - 1; x >= 1; x --) {
-      snake[x].x = snake[x - 1].x;
-      snake[x].y = snake[x - 1].y;
+    for (var segment = snake.length - 1; segment >= 1; segment --) {
+      snake[segment].x = snake[segment - 1].x;
+      snake[segment].y = snake[segment - 1].y;
     }
     // Check to see if we're growing.
     if (checkAppleEaten(xDelta, yDelta)) {
@@ -338,9 +338,9 @@ function checkAppleEaten(xDelta, yDelta) {
  * Checks for what direction the snake is heading, and changing the image of the snake's head.
  */
 function applySnakeHeadToBoard() {
-  for (var x = 0; x < snake.length; x ++) {
+  for (var segment = 0; segment < snake.length; segment ++) {
     var image;
-    if (x == 0) {
+    if (segment == 0) {
       if (lastSnakeDirection == "left") {
         image = snakeImageLeft;
       }
@@ -357,7 +357,7 @@ function applySnakeHeadToBoard() {
     else {
       image = bodyImage;
     }
-    canvas.drawImage(image, snake[x].x * 8, snake[x].y * 8);
+    canvas.drawImage(image, snake[segment].x * 8, snake[segment].y * 8);
   }
 }
 

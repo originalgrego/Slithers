@@ -195,6 +195,7 @@ function gameLoop() {
 function handleInput() {
   var xDelta = 0;
   var yDelta = 0;
+  
 }
 
 /**
@@ -227,9 +228,9 @@ function drawArray(drawArray, xOffset, yOffset) {
  * Steps through our snake's body, and moves each segment forward by one space.
  */
 function moveSnakeBody() {
-  for (var x = snake.length - 1; x >= 1; x --) {
-    snake[x].x = snake[x - 1].x;
-    snake[x].y = snake[x - 1].y;
+  for (var segment = snake.length - 1; segment >= 1; segment --) {
+    snake[segment].x = snake[segment - 1].x;
+    snake[segment].y = snake[segment - 1].y;
   }
 }
 
