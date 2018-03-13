@@ -71,7 +71,7 @@ var applePosition = {
  * the data is simpler.
  */
 function getNewBoard() {
-  return [
+  board = [
     [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
     [-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1],
     [-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1],
@@ -97,6 +97,12 @@ function getNewBoard() {
     [-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1],
     [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
   ];
+
+  // Calculate the walls of the board.
+  topLimit = 0;
+  bottomLimit = board.length - 1;
+  leftLimit = 0;
+  rightLimit = board[0].length - 1;
 }
 
 function resetSnake() {
@@ -148,18 +154,7 @@ function onLoad() {
     playerKeyPress = 0;
   });
 
-  // Setup a new game.
-  board = getNewBoard();
-  snake = resetSnake();
-  // Calculate the walls of the board.
-  topLimit = 0;
-  bottomLimit = board.length - 1;
-  leftLimit = 0;
-  rightLimit = board[0].length - 1;
-  // Get a random apple position.
-  newAppleLocation();
-  // Reset our gameOver flag.
-  gameOver = false;
+  newGame();
 }
 
 /**
@@ -167,9 +162,11 @@ function onLoad() {
  */
 function newGame() {
   // Create and assign a new board.
-  board = getNewBoard();
+  getNewBoard();
   // Reset snake.
   snake = resetSnake();
+  // Get a random apple position.
+  newAppleLocation();
   // Reset our gameOver flag.
   gameOver = false;
 }
@@ -266,7 +263,7 @@ function handleInput() {
  */
 function drawGame() {
   // Draw the board.
-  drawArray(board, 0, 0);
+  drawBoard();
 
   // Apply the sprites to the board.
   applyAppleToBoard();
@@ -281,12 +278,12 @@ function drawGame() {
 }
 
 /*
- * Draws a two dimensional array such as the board or a piece.
+ * Draws the two dimensional array of the board.
  */
-function drawArray(drawArray, xOffset, yOffset) {
-  for (var x = 0; x < drawArray[0].length; x++) {
-    for (var y = 0; y < drawArray.length; y++) {
-      var value = drawArray[y][x];
+function drawBoard() {
+  for (var x = 0; x < board[0].length; x++) {
+    for (var y = 0; y < board.length; y++) {
+      var value = board[y][x];
       var image;
       if (value == 0) {
         image = floorImage;
@@ -294,7 +291,7 @@ function drawArray(drawArray, xOffset, yOffset) {
       if (value == -1) {
         image = boardImage;
       }
-      canvas.drawImage(image, (x + xOffset) * 8, (y + yOffset) * 8);
+      canvas.drawImage(image, x * 8, y * 8);
     }
   }
 }

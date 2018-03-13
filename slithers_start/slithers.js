@@ -71,7 +71,7 @@ var applePosition = {
  * the data is simpler.
  */
 function getNewBoard() {
-  board =  [
+  board = [
     [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
     [-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1],
     [-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,-1],
@@ -195,7 +195,7 @@ function gameLoop() {
 function handleInput() {
   var xDelta = 0;
   var yDelta = 0;
-  
+
 }
 
 /**
@@ -206,12 +206,12 @@ function drawGame() {
 }
 
 /*
- * Draws a two dimensional array such as the board or a piece.
+ * Draws the two dimensional array of the board.
  */
-function drawArray(drawArray, xOffset, yOffset) {
-  for (var x = 0; x < drawArray[0].length; x++) {
-    for (var y = 0; y < drawArray.length; y++) {
-      var value = drawArray[y][x];
+function drawBoard() {
+  for (var x = 0; x < board[0].length; x++) {
+    for (var y = 0; y < board.length; y++) {
+      var value = board[y][x];
       var image;
       if (value == 0) {
         image = floorImage;
@@ -219,7 +219,7 @@ function drawArray(drawArray, xOffset, yOffset) {
       if (value == -1) {
         image = boardImage;
       }
-      canvas.drawImage(image, (x + xOffset) * 8, (y + yOffset) * 8);
+      canvas.drawImage(image, x * 8, y * 8);
     }
   }
 }
