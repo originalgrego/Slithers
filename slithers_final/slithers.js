@@ -310,12 +310,19 @@ function moveSnakeBody(xDelta, yDelta) {
     }
     // Check to see if we're growing.
     if (checkAppleEaten(xDelta, yDelta)) {
-      snake.push({
-        x: lastSegmentX,
-        y: lastSegmentY
-      });
+      growSnakeBody(lastSegmentX, lastSegmentY);
     }
   }
+}
+
+/**
+ * Push a new segment onto the end of our snake array.
+ */
+function growSnakeBody(newX, newY) {
+  snake.push({
+    x: newX,
+    y: newY
+  });
 }
 
 /**

@@ -235,6 +235,16 @@ function moveSnakeBody() {
 }
 
 /**
+ * Push a new segment onto the end of our snake array.
+ */
+function growSnakeBody(newX, newY) {
+  snake.push({
+    x: newX,
+    y: newY
+  });
+}
+
+/**
  * Checks the position of our snake's head and the apple, returns TRUE if they're at the same position.
  */
 function checkAppleEaten(xDelta, yDelta) {
