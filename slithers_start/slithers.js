@@ -202,7 +202,14 @@ function handleInput() {
  * Draw our game board, two paddles, ball, and scores.
  */
 function drawGame() {
+  drawBoard();
 
+  // Draw the snake.
+  for (var segment = 0; segment < snake.length; segment ++) {
+    var image;
+    // Add logic to draw image here.
+    canvas.drawImage(image, snake[segment].x * 8, snake[segment].y * 8);
+  }
 }
 
 /*
@@ -213,12 +220,7 @@ function drawBoard() {
     for (var y = 0; y < board.length; y++) {
       var value = board[y][x];
       var image;
-      if (value == 0) {
-        image = floorImage;
-      }
-      if (value == -1) {
-        image = boardImage;
-      }
+      // Add logic to draw image here.
       canvas.drawImage(image, x * 8, y * 8);
     }
   }
