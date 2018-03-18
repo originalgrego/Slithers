@@ -260,8 +260,8 @@ function drawGame() {
   drawBoard();
 
   // Apply the sprites to the board.
-  drawApple();
   drawSnake();
+  drawApple();
 
   // If we hit a game over, show a game over message.
   if (gameOver) {
@@ -288,47 +288,6 @@ function drawBoard() {
       canvas.drawImage(image, x * 8, y * 8);
     }
   }
-}
-
-/**
- * Steps through our snake's body, and moves each segment forward by one space.
- */
-function moveSnakeBody(xDelta, yDelta) {
-  if (xDelta != 0 || yDelta != 0) {
-    var lastSegmentX = snake[snake.length - 1].x;
-    var lastSegmentY = snake[snake.length - 1].y;
-
-    for (var segment = snake.length - 1; segment >= 1; segment --) {
-      snake[segment].x = snake[segment - 1].x;
-      snake[segment].y = snake[segment - 1].y;
-    }
-
-    // Check to see if we're growing.
-    if (checkAppleEaten(xDelta, yDelta)) {
-      growSnakeBody(lastSegmentX, lastSegmentY);
-    }
-  }
-}
-
-/**
- * Push a new segment onto the end of our snake array.
- */
-function growSnakeBody(newX, newY) {
-  snake.push({
-    x: newX,
-    y: newY
-  });
-}
-
-/**
- * Checks the position of our snake's head and the apple, returns TRUE if they're at the same position.
- */
-function checkAppleEaten(xDelta, yDelta) {
-  if (snake[0].x + xDelta == applePosition.x && snake[0].y + yDelta == applePosition.y) {
-    newAppleLocation();
-    return true;
-  }
-  return false;
 }
 
 /**
@@ -381,10 +340,51 @@ function drawImage(image, x, y, angle, mirror) {
 }
 
 /**
+ * Steps through our snake's body, and moves each segment forward by one space.
+ */
+function moveSnakeBody(xDelta, yDelta) {
+  if (xDelta != 0 || yDelta != 0) {
+    var lastSegmentX = snake[snake.length - 1].x;
+    var lastSegmentY = snake[snake.length - 1].y;
+
+    for (var segment = snake.length - 1; segment >= 1; segment --) {
+      snake[segment].x = snake[segment - 1].x;
+      snake[segment].y = snake[segment - 1].y;
+    }
+
+    // Check to see if we're growing.
+    if (checkAppleEaten(xDelta, yDelta)) {
+      growSnakeBody(lastSegmentX, lastSegmentY);
+    }
+  }
+}
+
+/**
+ * Push a new segment onto the end of our snake array.
+ */
+function growSnakeBody(newX, newY) {
+  snake.push({
+    x: newX,
+    y: newY
+  });
+}
+
+/**
  * Draw the apple.
  */
 function drawApple() {
   canvas.drawImage(appleImage, applePosition.x * 8, applePosition.y * 8);
+}
+
+/**
+ * Checks the position of our snake's head and the apple, returns TRUE if they're at the same position.
+ */
+function checkAppleEaten(xDelta, yDelta) {
+  if (snake[0].x + xDelta == applePosition.x && snake[0].y + yDelta == applePosition.y) {
+    newAppleLocation();
+    return true;
+  }
+  return false;
 }
 
 /**
