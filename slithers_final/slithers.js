@@ -22,7 +22,7 @@ var KEY_PRESS_ENTER = 13;
  */
 // A reference to the canvas we use to draw the game.
 var canvas = null;
-// A reference to the current board's information: a multidimensional array where a wall is represented by -1, an empty spot by 0
+// A reference to the current board's information: a multidimensional array where a wall is represented by -1, an empty spot by 0.
 var board = null;
 // Calculate the walls of the board.
 var topLimit = 0;
@@ -31,26 +31,25 @@ var leftLimit = 0;
 var rightLimit = 0;
 // Whether or not we have hit the Game Over state. Is either true or false.
 var gameOver = false;
+// The image for the board's wall piece.
+var wallImage = null;
 // The image for a snake head piece.
+var floorImage = null;
+// Stores the key that was pressed.
 var headImage = null;
 // The image for a body piece.
 var bodyImage = null;
-// The image for the board's wall piece.
-var boardImage = null;
 // The image for the apple piece.
 var appleImage = null;
 // The image for the floor piece.
-var floorImage = null;
-// Stores the key that was pressed.
 var playerKeyPress = 0;
 // The number of frames since the last time we forced the players piece to drop.
 var frameCount = 0;
-// The current number of frames per forceful drop of the players piece. Updated whenever the player scores ten lines to slowly increase
-// the game difficulty.
+// The current number of frames per forceful drop of the players piece. Updated whenever the player scores ten lines to slowly increase the game difficulty.
 var framesPerDrop = 30;
 // Initial position of the snake head with 3 body segments.
 var snake = null;
-// This is used to check if the snake is trying to curve back in on itself.
+// The direction the snake is heading, so we can rotate the head piece.
 var lastSnakeDirection = "left";
 // The position of the apple.
 var applePosition = {
@@ -99,7 +98,7 @@ function getNewBoard() {
 }
 
 /**
- * Creates a new snake array
+ * Creates a new snake array.
  */
 function resetSnake() {
   return [
@@ -131,11 +130,13 @@ function onLoad() {
 
   // We draw via the canvas's 2d context, so we store a reference for drawing.
   canvas = document.getElementById("canvas").getContext("2d");
-  headImage = document.getElementById("head_piece_left");
-  bodyImage = document.getElementById("body_piece");
-  boardImage = document.getElementById("wall_piece");
-  appleImage = document.getElementById("apple_piece");
+
+  // We load in all of our images from the HTML file.
+  wallImage = document.getElementById("wall_piece");
   floorImage = document.getElementById("floor_piece");
+  headImage = document.getElementById("head_piece");
+  bodyImage = document.getElementById("body_piece");
+  appleImage = document.getElementById("apple_piece");
 
   // Every time a key is pressed, store it to be processed in the game loop.
   document.addEventListener('keydown', function (event) {
@@ -189,22 +190,22 @@ function handleInput() {
   var xDelta = 0;
   var yDelta = 0;
 
-  if (playerKeyPress == KEY_PRESS_LEFT && lastSnakeDirection !== "right") { // If the player presses left, store a left movement in xDelta.
+  if (playerKeyPress == KEY_PRESS_LEFT && lastSnakeDirection !== "right") {
     lastSnakeDirection = "left";
     xDelta --;
     frameCount = 0;
   }
-  else if (playerKeyPress == KEY_PRESS_RIGHT && lastSnakeDirection !== "left") { // If the player presses right, store a right movement in xDelta.
+  else if (playerKeyPress == KEY_PRESS_RIGHT && lastSnakeDirection !== "left") {
     lastSnakeDirection = "right";
     xDelta ++;
     frameCount = 0;
   }
-  else if (playerKeyPress == KEY_PRESS_DOWN && lastSnakeDirection !== "up") { // If the player presses down, store a down movement in YDelta.
+  else if (playerKeyPress == KEY_PRESS_DOWN && lastSnakeDirection !== "up") {
     lastSnakeDirection = "down";
     yDelta ++;
     frameCount = 0;
   }
-  else if (playerKeyPress == KEY_PRESS_UP && lastSnakeDirection !== "down") { // If the player presses down, store a down movement in YDelta.
+  else if (playerKeyPress == KEY_PRESS_UP && lastSnakeDirection !== "down") {
     lastSnakeDirection = "up";
     yDelta --;
     frameCount = 0;
@@ -252,7 +253,7 @@ function handleInput() {
 }
 
 /**
- * Draw the game by drawing the board, then the apple, then the snake, and if necessary game over text
+ * Draw the game by drawing the board, then the apple, then the snake, and if necessary game over text.
  */
 function drawGame() {
   // Draw the board.
@@ -274,15 +275,15 @@ function drawGame() {
  * Draws the two dimensional array of the board.
  */
 function drawBoard() {
-  for (var x = 0; x < board[0].length; x++) {
-    for (var y = 0; y < board.length; y++) {
+  for (var x = 0; x < board[0].length; x ++) {
+    for (var y = 0; y < board.length; y ++) {
       var value = board[y][x];
       var image;
-      if (value == 0) {
-        image = floorImage;
-      }
       if (value == -1) {
-        image = boardImage;
+        image = wallImage;
+      }
+      else {
+        image = floorImage;
       }
       canvas.drawImage(image, x * 8, y * 8);
     }
@@ -301,7 +302,7 @@ function moveSnakeBody(xDelta, yDelta) {
       snake[segment].x = snake[segment - 1].x;
       snake[segment].y = snake[segment - 1].y;
     }
-	
+
     // Check to see if we're growing.
     if (checkAppleEaten(xDelta, yDelta)) {
       growSnakeBody(lastSegmentX, lastSegmentY);
@@ -323,7 +324,6 @@ function growSnakeBody(newX, newY) {
  * Checks the position of our snake's head and the apple, returns TRUE if they're at the same position.
  */
 function checkAppleEaten(xDelta, yDelta) {
-  // Check to see if we're growing.
   if (snake[0].x + xDelta == applePosition.x && snake[0].y + yDelta == applePosition.y) {
     newAppleLocation();
     return true;
@@ -332,52 +332,56 @@ function checkAppleEaten(xDelta, yDelta) {
 }
 
 /**
- * Draws the snake head and body, determining the proper image to use for each section and rotating/mirroring it for grand effect
+ * Draws the snake head and body, determining the proper image to use for each section and rotating/mirroring it for grand effect.
  */
 function drawSnake() {
   for (var segment = 0; segment < snake.length; segment ++) {
     var image;
     if (segment == 0) {
-	  image = headImage;
-    } else {
+      image = headImage;
+    }
+    else {
       image = bodyImage;
     }
-	
-	var angle = 0;
-	var mirror = false;
-	if (lastSnakeDirection == "right") {
-	  mirror = true;
-	} else if (lastSnakeDirection == "up") {
-	  angle = 90;
-	} else if (lastSnakeDirection == "down") {
-	  angle = 270;
-	}
+
+    var angle = 0;
+    var mirror = false;
+    if (lastSnakeDirection == "right") {
+      mirror = true;
+    }
+    else if (lastSnakeDirection == "up") {
+      angle = 90;
+    }
+    else if (lastSnakeDirection == "down") {
+      angle = 270;
+    }
 
     drawImage(image, snake[segment].x * 8, snake[segment].y * 8, angle, mirror);
   }
 }
 
 /**
- * Draws an image to the canvas at the specified location with rotation and mirroring
+ * Draws an image to the canvas at the specified location with rotation and mirroring.
  */
-function drawImage(image, xPos, yPos, angle, mirrorX) {
-	canvas.translate(xPos + (image.width / 2), yPos + (image.height / 2));
-	
-	canvas.rotate(angle * Math.PI / 180);
-	
-	if (mirrorX) {
-	  canvas.scale(-1, 1);
-	} else {
-	  canvas.scale(1, 1);
-	}
+function drawImage(image, x, y, angle, mirror) {
+  canvas.translate(x + (image.width / 2), y + (image.height / 2));
 
-    canvas.drawImage(image, -4, -4);
+  canvas.rotate(angle * Math.PI / 180);
 
-	canvas.setTransform(1, 0, 0, 1, 0, 0);
+  if (mirror) {
+    canvas.scale(-1, 1);
+  }
+  else {
+    canvas.scale(1, 1);
+  }
+
+  canvas.drawImage(image, -4, -4);
+
+  canvas.setTransform(1, 0, 0, 1, 0, 0);
 }
 
 /**
- * Draw the apple
+ * Draw the apple.
  */
 function drawApple() {
   canvas.drawImage(appleImage, applePosition.x * 8, applePosition.y * 8);
@@ -398,14 +402,14 @@ function newAppleLocation() {
 }
 
 /**
- * Generates a random integer between the upper and lower limits inclusive
+ * Generates a random integer between the upper and lower limits inclusive.
  */
 function randInt(lower, upper) {
-	return Math.round(Math.random() * (upper - lower)) + lower;
+  return Math.round(Math.random() * (upper - lower)) + lower;
 }
 
 /**
- * Checks if any section of the snake intersects with a position
+ * Checks if any section of the snake intersects with a position.
  */
 function snakeIntersect(xIndex, yIndex) {
   for (var x = 0; x < snake.length; x ++) {
@@ -423,7 +427,6 @@ function checkGameOver(xDelta, yDelta) {
   if (xDelta != 0 || yDelta != 0) {
     var newX = snake[0].x + xDelta;
     var newY = snake[0].y + yDelta;
-	// Check if the latest move has caused the snake to intersect with itself or a wall
     if (snakeIntersect(newX, newY) || board[newY][newX] == -1) {
       gameOver = true;
     }
@@ -441,7 +444,7 @@ function bounceOffWalls(xDelta, yDelta) {
     }
     else {
       lastSnakeDirection = "up";
-      yDelta--;
+      yDelta --;
     }
     xDelta = 0;
   }
@@ -452,7 +455,7 @@ function bounceOffWalls(xDelta, yDelta) {
     }
     else {
       lastSnakeDirection = "down";
-      yDelta++;
+      yDelta ++;
     }
     xDelta = 0;
   }
