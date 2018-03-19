@@ -286,11 +286,12 @@ function drawGame() {
   // Draw the snake.
   for (var segment = 0; segment < snake.length; segment ++) {
     var image;
-    // Fill in the correct image and draw it to the canvas.
-    canvas.drawImage(image, snake[segment].x * 8, snake[segment].y * 8);
+    // Fill in the correct image.
+    drawImage(image, snake[segment].x * 8, snake[segment].y * 8, 0, false);
   }
 
   // Draw the apple.
+
 }
 
 /*

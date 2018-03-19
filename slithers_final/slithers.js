@@ -296,23 +296,22 @@ function drawBoard() {
 function drawSnake() {
   for (var segment = 0; segment < snake.length; segment ++) {
     var image;
+    var angle = 0;
+    var mirror = false;
     if (segment == 0) {
       image = headImage;
+      if (lastSnakeDirection == "up") {
+        angle = 90;
+      }
+      else if (lastSnakeDirection == "right") {
+        mirror = true;
+      }
+      else if (lastSnakeDirection == "down") {
+        angle = 270;
+      }
     }
     else {
       image = bodyImage;
-    }
-
-    var angle = 0;
-    var mirror = false;
-    if (lastSnakeDirection == "right") {
-      mirror = true;
-    }
-    else if (lastSnakeDirection == "up") {
-      angle = 90;
-    }
-    else if (lastSnakeDirection == "down") {
-      angle = 270;
     }
 
     drawImage(image, snake[segment].x * 8, snake[segment].y * 8, angle, mirror);
