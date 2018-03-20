@@ -274,6 +274,8 @@ function handleInput() {
   var xDelta = 0;
   var yDelta = 0;
 
+  // Listen for key presses.
+
   if (xDelta != 0 || yDelta != 0) {
     // Draw the snake.
   }
