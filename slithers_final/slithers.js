@@ -285,7 +285,7 @@ function drawBoard() {
       else {
         image = floorImage;
       }
-      canvas.drawImage(image, x * 8, y * 8);
+      drawImage(image, x * 8, y * 8, 0, false);
     }
   }
 }
@@ -372,7 +372,7 @@ function growSnakeBody(newX, newY) {
  * Draw the apple.
  */
 function drawApple() {
-  canvas.drawImage(appleImage, applePosition.x * 8, applePosition.y * 8);
+  drawImage(appleImage, applePosition.x * 8, applePosition.y * 8, 0, false);
 }
 
 /**

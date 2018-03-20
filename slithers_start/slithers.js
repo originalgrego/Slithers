@@ -274,6 +274,9 @@ function handleInput() {
   var xDelta = 0;
   var yDelta = 0;
 
+  if (xDelta != 0 || yDelta != 0) {
+    // Draw the snake.
+  }
 }
 
 /**
