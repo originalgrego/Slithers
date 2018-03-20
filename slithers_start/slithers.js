@@ -306,6 +306,7 @@ function drawBoard() {
       var value = board[y][x];
       var image;
       // Fill in the correct image and draw it to the canvas.
+      drawImage(image, x * 8, y * 8, 0, false);
     }
   }
 }
