@@ -2,12 +2,34 @@
 <head>
   <script type="text/javascript" src="slithers.js"></script>
 </head>
-<body onload="onLoad();" style="text-align: center; zoom: 300%">
+<body onload="onLoad();" onresize="onResize();"style="text-align: center;">
+  <div id="level_edit_div">
+	<div>
+		<input type="button" id="map_code_button" value="Create Map Code"> <span>&nbsp;&nbsp;</span>
+		<input type="text" id="map_code" size="1024" style="width:100px"> <span>&nbsp;&nbsp;</span>
+		<input type="button" id="map_load_button" value="Load Map Code">
+	</div>
+	<div>
+		WIDTH:
+		<input type="button" id="decrease_x" value="<"> <span>&nbsp;&nbsp;</span>
+		<input type="text" id="width" size="50" style="width:25px"> <span>&nbsp;&nbsp;</span>
+		<input type="button" id="increase_x" value=">"> <span>&nbsp;&nbsp;</span>
+
+		HEIGHT:
+		<input type="button" id="decrease_y" value="<"> <span>&nbsp;&nbsp;</span>
+		<input type="text" id="height" size="50" style="width:25px"> <span>&nbsp;&nbsp;</span>
+		<input type="button" id="increase_y" value=">">
+		
+		<input type="button" id="clear_map" value="Clear Map">
+	</div>
+  </div>
   <img src="images/apple_piece.png" id="apple_piece" style="display: none;"/>
   <img src="images/body_piece.png" id="body_piece" style="display: none;"/>
-  <img src="images/head_piece_left.png" id="head_piece" style="display: none;"/>
+  <img src="images/tail_piece.png" id="tail_piece" style="display: none;"/>
+  <img src="images/head_piece_left.png" id="head_piece_left" style="display: none;"/>
+  <img src="images/open_mouth_piece.png" id="open_mouth_piece" style="display: none;"/>
   <img src="images/wall_piece.png" id="wall_piece" style="display: none;"/>
   <img src="images/floor_piece.png" id="floor_piece" style="display: none;"/>
-  <canvas id="canvas" width="300px" height="200px"></canvas>
+  <canvas id="canvas" width="300px" height="200px" style="zoom: 400%;"></canvas>
 </body>
 </html>
